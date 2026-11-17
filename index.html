@@ -240,6 +240,15 @@ footer { font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--lin
 const LOGO_URL = new URL("logo-signatur.png", location.href).href;
 const SITE_URL = "https://fruchtfolge.live";
 const INSTA_URL = "https://www.instagram.com/fruchtfolgefestival";
+const FB_URL = "https://www.facebook.com/profile.php?id=61578491524696";
+const YT_URL = "https://www.youtube.com/@FruchtfolgeFestival";
+const asset = f => new URL(f, location.href).href;
+const SOCIAL = [
+  [SITE_URL, "icon-web.png", "Website"],
+  [INSTA_URL, "icon-instagram.png", "Instagram"],
+  [FB_URL, "icon-facebook.png", "Facebook"],
+  [YT_URL, "icon-youtube.png", "YouTube"]
+];
 const PRIVACY_URL = "https://fruchtfolge.live/datenschutzerklaerung/";
 // Nur für die Vorschau auf dieser Seite (externe Bilder werden hier nicht geladen).
 const LOGO_PREVIEW = LOGO_URL;
@@ -276,8 +285,9 @@ function sigHtml(d, logoSrc) {
 <td valign="top" style="padding:0 0 0 14px;${font}font-size:13px;line-height:1.5;color:#1a1a1a;">
 <span style="font-size:15px;font-weight:bold;color:#1a1a1a;">${name}</span>${pron}<br>
 <span style="color:#444444;">${role} · Fruchtfolgefestival</span><br>
-${contact.length ? contact.join(' <span style="color:#999999;">·</span> ') + "<br>" : ""}<a href="${SITE_URL}" style="${link}">fruchtfolge.live</a> <span style="color:#999999;">·</span> <a href="${INSTA_URL}" style="${link}">Instagram</a><br>
+${contact.length ? contact.join(' <span style="color:#999999;">·</span> ') + "<br>" : ""}
 <span style="font-weight:bold;color:${INK};">${esc(FESTIVAL)}</span>
+<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"><tr>${SOCIAL.map(([href, img, alt]) => `<td style="padding:8px 8px 0 0;"><a href="${href}" title="${alt}" style="text-decoration:none;"><img src="${asset(img)}" width="20" height="20" alt="${alt}" style="display:block;border:0;width:20px;height:20px;"></a></td>`).join("")}</tr></table>
 </td>
 </tr>
 </table>
@@ -295,7 +305,10 @@ function sigText(d) {
   lines.push((d.role || "Team") + " · Fruchtfolgefestival");
   const c = [d.mail, d.tel].filter(Boolean).join(" · ");
   if (c) lines.push(c);
-  lines.push("fruchtfolge.live · instagram.com/fruchtfolgefestival");
+  lines.push("Web: fruchtfolge.live");
+  lines.push("Instagram: instagram.com/fruchtfolgefestival");
+  lines.push("Facebook: " + FB_URL.replace("https://www.", ""));
+  lines.push("YouTube: youtube.com/@FruchtfolgeFestival");
   lines.push(FESTIVAL);
   lines.push("");
   lines.push(VEREIN + " · Datenschutz: " + PRIVACY_URL.replace("https://", "").replace(/\/$/, ""));
