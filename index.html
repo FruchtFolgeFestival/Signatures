@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Fruchtfolge Signaturbaukasten</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: Werkbank. Formular links, Vorschau wie ein echtes Mail-Ende rechts, Anleitung darunter in Reitern. */
+:root {
+  --bg: #f3f4ee;
+  --surface: #ffffff;
+  --ink: #1b1d17;
+  --muted: #5d6356;
+  --line: #d9dccf;
+  --accent: #3d6b2f;
+  --accent-ink: #ffffff;
+  --soft: #e6ebdc;
+  --warn-bg: #fbf1d9;
+  --warn-ink: #6a4b00;
+  --display: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --body: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15170f; --surface: #1f2219; --ink: #ecefe4; --muted: #a3aa96; --line: #343a2c;
+    --accent: #8cbf6e; --accent-ink: #10140b; --soft: #263020; --warn-bg: #3a3014; --warn-ink: #f1d995;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15170f; --surface: #1f2219; --ink: #ecefe4; --muted: #a3aa96; --line: #343a2c;
+  --accent: #8cbf6e; --accent-ink: #10140b; --soft: #263020; --warn-bg: #3a3014; --warn-ink: #f1d995;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-block: 32px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 40px; }
+header { display: grid; gap: 10px; max-width: 68ch; }
+.eyebrow { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(28px, 5vw, 42px); line-height: 1.08; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--display); font-weight: 700; font-size: 22px; margin: 0; text-wrap: balance; }
+h3 { font-family: var(--display); font-weight: 700; font-size: 16px; margin: 0; }
+p { margin: 0; }
+.lead { color: var(--muted); font-size: 16px; }
+
+.bench { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 820px) { .bench { grid-template-columns: minmax(0, 1fr); } }
+
+form { display: grid; gap: 16px; }
+.field { display: grid; gap: 6px; }
+label { font-weight: 600; font-size: 14px; }
+.hint { font-size: 12.5px; color: var(--muted); font-weight: 400; }
+input, select { font: inherit; font-size: 15px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); width: 100%; min-width: 0; }
+input:focus-visible, select:focus-visible, button:focus-visible, .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.preview-col { display: grid; gap: 14px; min-width: 0; }
+.mail { background: #ffffff; color: #1a1a1a; border: 1px solid var(--line); border-radius: 8px; padding: 22px 22px 26px; overflow-x: auto; }
+.mail .greet { font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #1a1a1a; margin-bottom: 18px; line-height: 1.5; }
+.mail .dash { font-family: Arial, Helvetica, sans-serif; color: #888; font-size: 13px; margin-bottom: 8px; }
+.mail-label { font-size: 12px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+button { font: inherit; font-weight: 600; font-size: 14px; border-radius: 6px; padding: 10px 16px; cursor: pointer; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); }
+button.ghost { background: transparent; color: var(--accent); }
+button:hover { filter: brightness(1.06); }
+.status { font-size: 13.5px; color: var(--accent); min-height: 1.4em; }
+
+.note { background: var(--warn-bg); color: var(--warn-ink); border-radius: 8px; padding: 14px 16px; font-size: 14px; display: grid; gap: 6px; }
+.note code { font-size: 13px; word-break: break-all; }
+
+.guide { display: grid; gap: 18px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tab { font: inherit; font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.tab[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 20px 22px; display: grid; gap: 12px; max-width: 760px; }
+.panel ol { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
+.panel .tip { font-size: 13.5px; color: var(--muted); }
+kbd { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12.5px; background: var(--soft); border-radius: 4px; padding: 1px 6px; }
+.path { font-weight: 600; }
+
+.why { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.why div { display: grid; gap: 6px; }
+.why p { color: var(--muted); font-size: 14px; }
+
+footer { font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+.offscreen { position: absolute; left: -10000px; top: 0; width: 600px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Fruchtfolgefestival · Orga-Werkzeug</span>
+    <h1>Deine Signatur in zwei Minuten</h1>
+    <p class="lead">Damit jede Mail von uns nach Fruchtfolge aussieht, egal ob sie an eine Band in Wien, ans Landratsamt oder an die Presse geht. Trag unten deine Daten ein, kopier das Ergebnis und füg es in deinem Mailprogramm ein. Fertig, zurück aufs Feld.</p>
+  </header>
+
+  <section class="bench" aria-label="Signatur erstellen">
+    <form id="f" autocomplete="on">
+      <div class="field">
+        <label for="name">Dein Name</label>
+        <input id="name" name="name" placeholder="z. B. Kim Beispiel" required>
+      </div>
+      <div class="field">
+        <label for="pron">Pronomen <span class="hint">(freiwillig)</span></label>
+        <input id="pron" name="pron" placeholder="z. B. er/ihm, sie/ihr, they/them">
+      </div>
+      <div class="field">
+        <label for="role">Deine Aufgabe im Team</label>
+        <input id="role" name="role" list="roles" placeholder="z. B. Booking">
+        <datalist id="roles">
+          <option value="1. Vorstand"><option value="2. Vorstand"><option value="Schatzmeister">
+          <option value="Booking"><option value="Presse &amp; Kommunikation"><option value="Social Media">
+          <option value="Organisation &amp; Logistik"><option value="Awareness-Team"><option value="Helfer:innen-Koordination">
+          <option value="Technik &amp; Bühne"><option value="Website"><option value="Helfende Hand">
+        </datalist>
+        <span class="hint">Freitext, die Vorschläge sind nur Ideen.</span>
+      </div>
+      <div class="field">
+        <label for="mail">E-Mail-Adresse</label>
+        <input id="mail" name="mail" type="email" placeholder="vorname@fruchtfolge.live">
+      </div>
+      <div class="field">
+        <label for="tel">Telefon <span class="hint">(freiwillig, lass es leer, wenn du deine Nummer nicht rausgeben magst)</span></label>
+        <input id="tel" name="tel" type="tel" placeholder="z. B. 0151 1234567">
+      </div>
+    </form>
+
+    <div class="preview-col">
+      <span class="mail-label">So sieht's beim Empfänger aus</span>
+      <div class="mail" aria-live="polite">
+        <div class="greet">Servus Heckspoiler,<br>wir freuen uns riesig auf euch im September!<br><br>Liebe Grüße</div>
+        <div id="preview"></div>
+      </div>
+      <div class="actions">
+        <button type="button" id="copyRich">Signatur kopieren</button>
+        <button type="button" class="ghost" id="copyHtml">HTML-Code kopieren</button>
+        <button type="button" class="ghost" id="copyText">Textversion fürs Handy</button>
+      </div>
+      <p class="status" id="status" role="status"></p>
+      <p class="hint">„Signatur kopieren“ passt für Gmail, Outlook und Apple Mail. Den HTML-Code brauchst du nur für Thunderbird und Co. Die Textversion ist für die Gmail-App, die kann nur reinen Text.</p>
+    </div>
+  </section>
+
+  <section class="guide" aria-labelledby="g-h">
+    <h2 id="g-h">Und so kommt sie in dein Postfach</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="p-gmail" id="t-gmail" type="button">Gmail im Browser</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-app" id="t-app" type="button">Gmail-App am Handy</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-outlook" id="t-outlook" type="button">Outlook</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-apple" id="t-apple" type="button">Apple Mail</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p-tb" id="t-tb" type="button">Thunderbird</button>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-gmail" aria-labelledby="t-gmail">
+      <h3>Gmail im Browser (deine @fruchtfolge.live-Adresse)</h3>
+      <ol>
+        <li>Oben auf <strong>„Signatur kopieren“</strong> klicken.</li>
+        <li>In Gmail oben rechts aufs Zahnrad, dann <span class="path">Alle Einstellungen aufrufen</span>.</li>
+        <li>Im Reiter <span class="path">Allgemein</span> runterscrollen bis <span class="path">Signatur</span> und <span class="path">Neu erstellen</span> klicken. Name zum Beispiel „Fruchtfolge“.</li>
+        <li>Ins große Feld klicken und mit <kbd>Strg</kbd>+<kbd>V</kbd> einfügen (am Mac <kbd>⌘</kbd>+<kbd>V</kbd>).</li>
+        <li>Darunter bei <span class="path">Standardeinstellungen für Signaturen</span> deine neue Signatur für <em>neue E-Mails</em> und <em>Antworten/Weiterleitungen</em> auswählen.</li>
+        <li>Ganz nach unten scrollen und <span class="path">Änderungen speichern</span> klicken. Das vergisst jede:r beim ersten Mal.</li>
+      </ol>
+      <p class="tip">Logo fehlt nach dem Einfügen? Dann im Signaturfeld aufs Bild-Symbol klicken und die Datei <code>logo-signatur.png</code> hochladen. Die bekommst du von Johannes.</p>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-app" aria-labelledby="t-app" hidden>
+      <h3>Gmail-App auf Android und iPhone</h3>
+      <ol>
+        <li>Oben auf <strong>„Textversion fürs Handy“</strong> klicken (oder die Seite am Handy öffnen und dort kopieren).</li>
+        <li>In der Gmail-App links oben aufs Menü <kbd>☰</kbd>, dann <span class="path">Einstellungen</span>.</li>
+        <li>Deine @fruchtfolge.live-Adresse antippen.</li>
+        <li><span class="path">Mobile Signatur</span> (iPhone: <span class="path">Signatureinstellungen</span>) öffnen, Text einfügen, speichern.</li>
+      </ol>
+      <p class="tip">Die App kann nur Text, ohne Logo und Formatierung. Das ist normal und für unterwegs völlig okay. Die Vereinsangaben sind trotzdem drin.</p>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-outlook" aria-labelledby="t-outlook" hidden>
+      <h3>Outlook</h3>
+      <ol>
+        <li>Oben auf <strong>„Signatur kopieren“</strong> klicken.</li>
+        <li><strong>Neues Outlook / Outlook im Web:</strong> Zahnrad, dann <span class="path">Konten › Signaturen</span>. <strong>Klassisches Outlook:</strong> <span class="path">Datei › Optionen › E-Mail › Signaturen</span>.</li>
+        <li>Neue Signatur anlegen, Namen vergeben, ins Feld klicken und einfügen.</li>
+        <li>Als Standard für neue Nachrichten und Antworten auswählen, speichern.</li>
+      </ol>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-apple" aria-labelledby="t-apple" hidden>
+      <h3>Apple Mail (Mac)</h3>
+      <ol>
+        <li>Oben auf <strong>„Signatur kopieren“</strong> klicken.</li>
+        <li>In Mail: <span class="path">Mail › Einstellungen › Signaturen</span>.</li>
+        <li>Links dein Fruchtfolge-Konto wählen, unten aufs <kbd>+</kbd>, Namen vergeben.</li>
+        <li>Den Haken bei <span class="path">Immer passende Standardschrift verwenden</span> rausnehmen, sonst geht die Gestaltung verloren.</li>
+        <li>Den Beispieltext rechts löschen und einfügen. Speichert sich von selbst.</li>
+      </ol>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-tb" aria-labelledby="t-tb" hidden>
+      <h3>Thunderbird</h3>
+      <ol>
+        <li>Oben auf <strong>„HTML-Code kopieren“</strong> klicken.</li>
+        <li>In Thunderbird: <span class="path">Konten-Einstellungen</span>, dein Fruchtfolge-Konto anklicken.</li>
+        <li>Bei <span class="path">Signaturtext</span> den Haken bei <span class="path">HTML verwenden</span> setzen.</li>
+        <li>Code ins Feld einfügen, Fenster schließen. Fertig.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="why" aria-label="Warum das alles">
+    <div>
+      <h3>Warum die kleingedruckte Zeile?</h3>
+      <p>Vereinsname, Sitz, Registernummer und Vorstand gehören in jede Mail, die nach außen geht. Für Vereine ist das eine dringende Empfehlung, und bei Verträgen mit Bands oder Sponsoren macht es uns einfach seriöser.</p>
+    </div>
+    <div>
+      <h3>Bitte nicht umbauen</h3>
+      <p>Name, Aufgabe und Telefon sind deins. Logo, Festivalzeile und Vereinsangaben sind für alle gleich, damit wir als ein Festival auftreten. Ideen zur Gestaltung? Gern an Johannes.</p>
+    </div>
+    <div>
+      <h3>Deine Daten bleiben hier</h3>
+      <p>Was du oben einträgst, merkt sich nur dein eigener Browser, damit du beim nächsten Mal nicht neu tippen musst. Niemand sonst sieht es.</p>
+    </div>
+  </section>
+
+  <footer>Fruchtfolgefestival Förderfreunde e.V. · Diese Seite setzt keine Cookies und lädt nichts von Dritten. Mehr in unserer <a href="https://fruchtfolge.live/datenschutzerklaerung/" style="color:inherit">Datenschutzerklärung</a>.</footer>
+</div>
+
+<div class="offscreen" id="clip" contenteditable="true" aria-hidden="true"></div>
+
+<script>
+// Öffentlich erreichbare Adressen, die in die kopierte Signatur wandern.
+// Das Logo muss dort liegen, sonst sieht der Empfänger ein leeres Bild.
+const LOGO_URL = new URL("logo-signatur.png", location.href).href;
+const SITE_URL = "https://fruchtfolge.live";
+const INSTA_URL = "https://www.instagram.com/fruchtfolgefestival";
+const PRIVACY_URL = "https://fruchtfolge.live/datenschutzerklaerung/";
+// Nur für die Vorschau auf dieser Seite (externe Bilder werden hier nicht geladen).
+const LOGO_PREVIEW = LOGO_URL;
+
+const INK = "#1a1a1a";
+const FESTIVAL = "Fruchtfolgefestival 2027 · 03./04. September 2027 · Lindach bei Fürstenfeldbruck · Tickets bald online!";
+const VEREIN = "Fruchtfolgefestival Förderfreunde e.V. · Lindach 4, 82256 Fürstenfeldbruck · Sitz Fürstenfeldbruck · Amtsgericht München VR 211504 · Vertretungsberechtigter Vorstand (§ 26 BGB): Johannes Forster, Simon Gehrig, Johannes Kellerer";
+
+const $ = id => document.getElementById(id);
+const fields = ["name", "pron", "role", "mail", "tel"];
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function data() {
+  const d = {};
+  fields.forEach(k => d[k] = $(k).value.trim());
+  return d;
+}
+function telHref(t) { return "tel:" + t.replace(/[^\d+]/g, "").replace(/^0/, "+49"); }
+
+function sigHtml(d, logoSrc) {
+  const font = "font-family:Arial,Helvetica,sans-serif;";
+  const link = `color:${INK};text-decoration:none;`;
+  const name = esc(d.name || "Dein Name");
+  const pron = d.pron ? ` <span style="font-weight:normal;color:#777777;font-size:12px;">(${esc(d.pron)})</span>` : "";
+  const role = esc(d.role || "Team");
+  const contact = [];
+  if (d.mail) contact.push(`<a href="mailto:${esc(d.mail)}" style="${link}">${esc(d.mail)}</a>`);
+  if (d.tel) contact.push(`<a href="${esc(telHref(d.tel))}" style="${link}">${esc(d.tel)}</a>`);
+  return `<table cellpadding="0" cellspacing="0" border="0" style="${font}font-size:13px;line-height:1.5;color:#1a1a1a;border-collapse:collapse;">
+<tr>
+<td valign="top" style="padding:2px 14px 0 0;border-right:2px solid ${INK};"><a href="${SITE_URL}"><img src="${logoSrc}" width="56" height="80" alt="Fruchtfolgefestival" style="display:block;border:0;width:56px;height:80px;"></a></td>
+<td valign="top" style="padding:0 0 0 14px;${font}font-size:13px;line-height:1.5;color:#1a1a1a;">
+<span style="font-size:15px;font-weight:bold;color:#1a1a1a;">${name}</span>${pron}<br>
+<span style="color:#444444;">${role} · Fruchtfolgefestival</span><br>
+${contact.length ? contact.join(' <span style="color:#999999;">·</span> ') + "<br>" : ""}<a href="${SITE_URL}" style="${link}">fruchtfolge.live</a> <span style="color:#999999;">·</span> <a href="${INSTA_URL}" style="${link}">Instagram</a><br>
+<span style="font-weight:bold;color:${INK};">${esc(FESTIVAL)}</span>
+</td>
+</tr>
+</table>
+<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;max-width:600px;">
+<tr>
+<td style="padding:12px 0 0 0;${font}font-size:10.5px;line-height:1.45;color:#777777;">${esc(VEREIN)} · <a href="${PRIVACY_URL}" style="color:#777777;text-decoration:underline;">Datenschutz</a></td>
+</tr>
+</table>`;
+}
+
+function sigText(d) {
+  const lines = [];
+  lines.push("-- ");
+  lines.push((d.name || "Dein Name") + (d.pron ? ` (${d.pron})` : ""));
+  lines.push((d.role || "Team") + " · Fruchtfolgefestival");
+  const c = [d.mail, d.tel].filter(Boolean).join(" · ");
+  if (c) lines.push(c);
+  lines.push("fruchtfolge.live · instagram.com/fruchtfolgefestival");
+  lines.push(FESTIVAL);
+  lines.push("");
+  lines.push(VEREIN + " · Datenschutz: " + PRIVACY_URL.replace("https://", "").replace(/\/$/, ""));
+  return lines.join("\n");
+}
+
+function render() {
+  const d = data();
+  $("preview").innerHTML = sigHtml(d, LOGO_PREVIEW);
+  try { localStorage.setItem("fff-sig", JSON.stringify(d)); } catch (e) {}
+}
+
+function say(msg) { $("status").textContent = msg; }
+
+function fallbackCopy(html) {
+  const box = $("clip");
+  box.innerHTML = html;
+  const r = document.createRange();
+  r.selectNodeContents(box);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(r);
+  let ok = false;
+  try { ok = document.execCommand("copy"); } catch (e) {}
+  sel.removeAllRanges();
+  return ok;
+}
+
+async function copyRich() {
+  const d = data();
+  const html = sigHtml(d, LOGO_URL);
+  const text = sigText(d);
+  try {
+    if (!window.ClipboardItem || !navigator.clipboard || !navigator.clipboard.write) throw new Error("no rich clipboard");
+    await navigator.clipboard.write([new ClipboardItem({
+      "text/html": new Blob([html], { type: "text/html" }),
+      "text/plain": new Blob([text], { type: "text/plain" })
+    })]);
+    say("Kopiert! Jetzt im Signaturfeld deines Mailprogramms einfügen.");
+  } catch (e) {
+    say(fallbackCopy(html) ? "Kopiert! Jetzt im Signaturfeld deines Mailprogramms einfügen." : "Kopieren hat nicht geklappt. Markier die Vorschau mit der Maus und kopier sie mit Strg+C.");
+  }
+}
+
+async function copyPlain(text, okMsg) {
+  try {
+    await navigator.clipboard.writeText(text);
+    say(okMsg);
+  } catch (e) {
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.className = "offscreen"; document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand("copy"); } catch (e2) {}
+    ta.remove();
+    say(ok ? okMsg : "Kopieren hat nicht geklappt. Bitte probier es in einem anderen Browser.");
+  }
+}
+
+try {
+  const saved = JSON.parse(localStorage.getItem("fff-sig") || "null");
+  if (saved) fields.forEach(k => { if (typeof saved[k] === "string") $(k).value = saved[k]; });
+} catch (e) {}
+
+fields.forEach(k => $(k).addEventListener("input", render));
+$("f").addEventListener("submit", e => e.preventDefault());
+$("copyRich").addEventListener("click", copyRich);
+$("copyHtml").addEventListener("click", () => copyPlain(sigHtml(data(), LOGO_URL), "HTML-Code kopiert."));
+$("copyText").addEventListener("click", () => copyPlain(sigText(data()), "Textversion kopiert. Ab in die Gmail-App damit."));
+
+document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach(o => {
+    const on = o === t;
+    o.setAttribute("aria-selected", on ? "true" : "false");
+    $(o.getAttribute("aria-controls")).hidden = !on;
+  });
+}));
+
+render();
+</script>
+
+</body>
+</html>
